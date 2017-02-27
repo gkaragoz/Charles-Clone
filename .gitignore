@@ -1,6 +1,8 @@
 Temp/
 Library/
 *.csproj
+*.vs
+*.meta
 Sailman.io*
 *.sln
 *.sublime-workspace
