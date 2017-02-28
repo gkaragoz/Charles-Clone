@@ -4,9 +4,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    [Header("Movement Variables")]
+    [SerializeField] private Vector3 lastPosition;      // Stores last touch position
+    [SerializeField] private Vector3 deltaMovement;     // Stores delta quantity between first and last touch positions
+
 	void Update () {
         LookToFinger();
+        Move();
 	}
+
+    void Move()
+    {
+        // Get first click position
+        if (Input.GetMouseButtonDown(0))
+            lastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Input.GetMouseButton(0))
+        {
+            // Get current position when button pressed
+            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // Calculate distance or delta between current position and last position
+            deltaMovement = currentPosition - lastPosition;
+
+            // Check touch position is different from the last one? If yes, make movement
+            if (lastPosition != currentPosition)
+            {
+                // Final: Implement movement
+                transform.position += (deltaMovement * 2);
+            }
+
+            // Store lastPosition so that I can check it again next frame for position changed or not?
+            lastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // Clear deltaMovement when button up
+            if (Input.GetMouseButtonUp(0))
+                lastPosition = Vector3.zero;
+        }
+    }
 
     void LookToFinger()
     {
